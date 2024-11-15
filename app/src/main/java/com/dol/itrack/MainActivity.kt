@@ -11,12 +11,20 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import com.dol.itrack.databinding.ActivityMainBinding
+import com.dol.itrack.db.AppDatabase
+import com.dol.itrack.db.models.Event
+import com.dol.itrack.db.models.Mood
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var database: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +51,20 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+        // Create a dummy event and add it in DB
+
+        val event = Event(
+            timestamp = System.currentTimeMillis(),
+            mood = Mood.HAPPY,
+            topOfMind = "Excited about the new project",
+            lastHourActivity = "Coding",
+            extra = "Usually a JSON string of app settings"
+        )
+
+        addEventToDB(event)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,5 +76,23 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun getDBInstance() : AppDatabase {
+        if (this::database.isInitialized.not()) {
+            database = Room.databaseBuilder(
+                applicationContext,
+                AppDatabase::class.java, "app-database"
+            ).build()
+            return database
+        } else {
+            return database
+        }
+    }
+
+    private fun addEventToDB(event: Event) {
+        CoroutineScope(Dispatchers.IO).launch {
+            getDBInstance().appDao().insertEvent(event)
+        }
     }
 }
