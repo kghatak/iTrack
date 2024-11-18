@@ -40,24 +40,26 @@ android {
 }
 
 dependencies {
-
+    // Existing dependencies (keep these as is)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
+
+    // Room dependencies
+    implementation(libs.androidx.room.runtime) // Required Room runtime
+    implementation(libs.androidx.room.ktx) // Optional: Room Coroutines support
+    kapt(libs.androidx.room.compiler) // Required: Room annotation processor
+
+    // Coroutines dependencies
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
-
-
-
 }
