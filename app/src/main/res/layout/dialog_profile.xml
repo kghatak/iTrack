@@ -1,0 +1,37 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- If logged in, show profile details -->
+    <TextView
+        android:id="@+id/profileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name: John Doe"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/profileEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email: john.doe@example.com"
+        android:visibility="gone" />
+
+    <!-- If not logged in, show login prompt -->
+    <TextView
+        android:id="@+id/loginPrompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You are not logged in. Please log in to view your profile."
+        android:visibility="gone" />
+
+    <!-- Common actions -->
+    <Button
+        android:id="@+id/loginLogoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log In" />
+</LinearLayout>

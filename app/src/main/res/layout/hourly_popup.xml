@@ -1,0 +1,75 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/question1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Mood?"
+        android:textSize="16sp" />
+
+    <RadioGroup
+        android:id="@+id/emojiRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/happyRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="😊 Happy"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/sadRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="😢 Sad" />
+
+        <RadioButton
+            android:id="@+id/angryRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="😡 Angry" />
+
+        <RadioButton
+            android:id="@+id/excitedRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🤩 Excited" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/question2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Top of Mind?"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/answer2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Whats in your mind?"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/question3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="What did you do the last hour?"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/answer3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName" />
+</LinearLayout>

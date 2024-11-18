@@ -1,0 +1,87 @@
+<!-- activity_login_signup.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Login Form -->
+    <LinearLayout
+        android:id="@+id/loginForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <EditText
+            android:id="@+id/loginUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username" />
+
+        <EditText
+            android:id="@+id/loginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log In" />
+
+        <TextView
+            android:id="@+id/signUpPrompt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? Sign up"
+            android:textColor="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+    <!-- Sign Up Form -->
+    <LinearLayout
+        android:id="@+id/signUpForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/signupUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username" />
+
+        <EditText
+            android:id="@+id/signupEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email" />
+
+        <EditText
+            android:id="@+id/signupPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/signupButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up" />
+
+        <TextView
+            android:id="@+id/loginPrompt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Already have an account? Log in"
+            android:textColor="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</LinearLayout>
