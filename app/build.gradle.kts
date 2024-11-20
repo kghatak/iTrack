@@ -50,9 +50,13 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.core.animation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //
+    implementation("com.mikhaellopez:circularprogressbar:3.1.0")
 
     // Room dependencies
     implementation(libs.androidx.room.runtime) // Required Room runtime

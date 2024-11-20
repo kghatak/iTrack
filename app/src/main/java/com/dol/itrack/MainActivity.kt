@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMain.toolbar)
 
         binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Update", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
         }
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        schedulePopup()
+//        schedulePopup()
 
     }
 
@@ -155,16 +155,16 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun schedulePopup() {
-        val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                showPopupDialog()
-                // Schedule the next popup in 1 hour (3600000 ms)
-                handler.postDelayed(this, 3600000)
-            }
-        }, 360) // Initial delay of 1 hour
-    }
+//    private fun schedulePopup() {
+//        val handler = Handler(Looper.getMainLooper())
+//        handler.postDelayed(object : Runnable {
+//            override fun run() {
+//                showPopupDialog()
+//                // Schedule the next popup in 1 hour (3600000 ms)
+//                handler.postDelayed(this, 5000)
+//            }
+//        }, 360) // Initial delay of 1 hour
+//    }
 
     private fun showPopupDialog() {
         // Create an AlertDialog Builder
