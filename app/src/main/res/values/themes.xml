@@ -15,6 +15,11 @@
     </style>
 
     <style name="Theme.ITrack.NoActionBar">
+        <!-- Disable the default splash screen -->
+        <item name="android:windowSplashScreenBackground">@null</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@null</item>
+        <item name="android:windowSplashScreenAnimationDuration">0</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
