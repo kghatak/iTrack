@@ -1,41 +1,59 @@
 package com.dol.itrack
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
-import android.widget.EditText
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import android.os.Looper
+import android.view.Menu
 import android.view.View
 import android.widget.Button
-import android.widget.RadioButton
+import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.navigation.ui.NavigationUI
 import androidx.room.Room
 import com.dol.itrack.databinding.ActivityMainBinding
 import com.dol.itrack.db.AppDatabase
 import com.dol.itrack.db.models.Event
 import com.dol.itrack.db.models.Mood
+import com.dol.itrack.notification.foregroundservice.ForegroundNotificationService
+import com.dol.itrack.notification.workmanager.NotificationReceiver
+import com.dol.itrack.notification.NotificationUtils
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    /*** Notification START ***/
+    companion object {
+        const val POST_NOTIFICATIONS_PERMISSION = "android.permission.POST_NOTIFICATIONS"
+    }
+
+    private val NOTIFICATION_PERMISSION_CODE = 1001
+
+    /*** Notification END ***/
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: AppDatabase
@@ -88,7 +106,84 @@ class MainActivity : AppCompatActivity() {
 
 //        schedulePopup()
 
+
+        /*** Notification START ***/
+
+        // Check and request notification permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS_PERMISSION)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(POST_NOTIFICATIONS_PERMISSION),
+                    NOTIFICATION_PERMISSION_CODE
+                )
+            } else {
+                schedulePeriodicWork() // Permission already granted
+            }
+        } else {
+            schedulePeriodicWork() // Permission not required for older Android versions
+        }
+
+        NotificationUtils.showNotification(this)
+
+       // scheduleAlarm(this)
+
+        val serviceIntent = Intent(this, ForegroundNotificationService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
+
     }
+
+    @SuppressLint("ShortAlarm")
+    fun scheduleAlarm(context: Context) {
+        val alarmIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(context, NotificationReceiver::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + 60 * 1000, // 20 seconds delay
+            60 * 1000, //AlarmManager.INTERVAL_HOUR,
+            alarmIntent
+        )
+    }
+
+    private fun schedulePeriodicWork() {
+        /*val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.MINUTES).build()
+
+        // Enqueue unique work to avoid duplicates
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "HourlyNotificationWork", // Unique name for the work
+            ExistingPeriodicWorkPolicy.UPDATE, // Keep the existing work if already scheduled
+            workRequest
+        )*/
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                schedulePeriodicWork() // Permission granted
+            } else {
+                // Handle the case when the user denies the permission
+            }
+        }
+    }
+
+    /*** Notification END ***/
 
     private fun loadUserData() {
         // Load data from SharedPreferences

@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.dol.itrack"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.dol.itrack"
@@ -55,8 +55,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //
-    implementation("com.mikhaellopez:circularprogressbar:3.1.0")
+    // Circular Progress Bar
+    implementation(libs.circularprogressbar)
 
     // Room dependencies
     implementation(libs.androidx.room.runtime) // Required Room runtime
@@ -66,4 +66,7 @@ dependencies {
     // Coroutines dependencies
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.work.runtime.ktx) // WorkManager
+    implementation(libs.material.v1120) // Material components for buttons
 }
